@@ -162,27 +162,6 @@ class ProductManagerTest {
         assertArrayEquals(expected, managerWithMock.searchByTitle("исскуство"));
     }
 
-//     @Test
-//     void shouldSearchByTitleMockWithAllProductFoundMoreResult() {
-//         Product[] returnedAllProduct = new Product[]{
-//                 book1,
-//                 book2,
-//                 book3,
-//                 book4,
-//                 book5,
-//                 smartphone1,
-//                 smartphone2,
-//                 smartphone3,
-//                 smartphone4,
-//                 smartphone5,};
-//         doReturn(returnedAllProduct).when(repository).findAll();
-//         Product[] expected = new Product[]{
-//                 book1,
-//                 smartphone1,
-//                 smartphone2,
-//                 smartphone4};
-//         assertArrayEquals(expected, managerWithMock.searchByTitle("3"));
-//     }
 
     @Test
     void shouldSearchByTitleMockWithAllProductUnFound() {
