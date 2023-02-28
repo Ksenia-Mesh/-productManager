@@ -11,6 +11,7 @@ import ru.netology.exception.NotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepositoryTest {
+    ProductRepository repository = new ProductRepository();
     Product book1 = new Book(1, "Гарри Поттер и узник Азкабана", 1500, "Джоан Роулинг");
     Product book2 = new Book(2, "Зелёная миля", 950, "Стивен Кинг");
     Product book3 = new Book(3, "Унесенные ветром", 1350, "Маргарет Митчелл");
@@ -96,7 +97,7 @@ class ProductRepositoryTest {
     @Test
     void shouldAddProductFailed() {
         assertThrows(AlreadyExistsException.class, () -> {
-            repository.addProduct(bookThree);
+            repository.addProduct(book3);
         });
     }
 }
