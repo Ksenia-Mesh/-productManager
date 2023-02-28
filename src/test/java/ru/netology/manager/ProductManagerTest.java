@@ -18,52 +18,65 @@ class ProductManagerTest {
     ProductManager managerOneProduct = new ProductManager();
     ProductManager managerAllProduct = new ProductManager();
 
-    Product book1 = new Book(1, "Гарри Поттер и узник Азкабана", 1500, "Джоан Роулинг");
-    Product book2 = new Book(2, "Зелёная миля", 950, "Стивен Кинг");
-    Product book3 = new Book(3, "Унесенные ветром", 1350, "Маргарет Митчелл");
-    Product smartphone1 = new Smartphone(4, "iPhone 13 pro", 120_000, "Apple");
-    Product smartphone2 = new Smartphone(5, "Realme 10", 50_000, "Realme");
-    Product smartphone3 = new Smartphone(6, "Xiaomi Redmi Note 11 Pro", 25_000, "Xiaomi");
+    Product bookOne = new Book(1, "Война и мир. 3 тома", 1000, "Л.Н.Толстой");
+    Product bookTwo = new Book(2, "История создания Звездных войн", 3000, "Джордж Лукас");
+    Product bookThree = new Book(3, "Русская история в жизнеописаниях ее главнейших деятелей", 2000, "Н.И.Костомаров");
+    Product bookFour = new Book(4, "Исскуство войны", 500, "Сунь-цзы");
+    Product bookFive = new Book(5, "История искусств. Живопись. Скульптура. Архитектура", 1500, "П.П.Гнедич");
+    Product smartphoneOne = new Smartphone(6, "iPhone 13", 200_000, "Apple");
+    Product smartphoneTwo = new Smartphone(7, "iPhone 13 Mini", 150_000, "Apple");
+    Product smartphoneThree = new Smartphone(8, "Galaxy S22 Ultra", 150_000, "Samsung");
+    Product smartphoneFour = new Smartphone(9, "Galaxy Z Fold3 5G", 130_000, "Samsung");
+    Product smartphoneFive = new Smartphone(10, "Galaxy A52", 100_000, "Samsung");
 
     @BeforeEach
     void setup() {
-        managerOneProduct.add(book1);
-        managerAllProduct.add(book1);
-        managerAllProduct.add(book2);
-        managerAllProduct.add(book3);
-        managerAllProduct.add(smartphone1);
-        managerAllProduct.add(smartphone2);
-        managerAllProduct.add(smartphone3);
+        managerOneProduct.add(bookOne);
+        managerAllProduct.add(bookOne);
+        managerAllProduct.add(bookTwo);
+        managerAllProduct.add(bookThree);
+        managerAllProduct.add(bookFour);
+        managerAllProduct.add(bookFive);
+        managerAllProduct.add(smartphoneOne);
+        managerAllProduct.add(smartphoneTwo);
+        managerAllProduct.add(smartphoneThree);
+        managerAllProduct.add(smartphoneFour);
+        managerAllProduct.add(smartphoneFive);
     }
 
+    //тесты на логику репозитория
     @Test
     void shouldAddRepositoryEmpty() {
-        Product[] expected = new Product[]{smartphone1};
-        managerEmpty.add(smartphone1);
+        Product[] expected = new Product[]{smartphoneOne};
+        managerEmpty.add(smartphoneOne);
         assertArrayEquals(expected, managerEmpty.findAll());
     }
 
     @Test
     void shouldAddRepositoryWithOneProduct() {
         Product[] expected = new Product[]{
-                book1,
-                smartphone1};
-        managerOneProduct.add(smartphone1);
+                bookOne,
+                smartphoneOne};
+        managerOneProduct.add(smartphoneOne);
         assertArrayEquals(expected, managerOneProduct.findAll());
     }
 
     @Test
     void shouldAddRepositoryWithTenProduct() {
-        Product bookFour = new Book(7, "Свита короля", 850, "Нора Сакавич");
+        Product bookSix = new Book(11, "Мастер и Маргарита", 1500, "М.А.Булгаков");
         Product[] expected = new Product[]{
-                book1,
-                book2,
-                book3,
-                smartphone1,
-                smartphone2,
-                smartphone3,
-                bookFour};
-        managerAllProduct.add(bookFour);
+                bookOne,
+                bookTwo,
+                bookThree,
+                bookFour,
+                bookFive,
+                smartphoneOne,
+                smartphoneTwo,
+                smartphoneThree,
+                smartphoneFour,
+                smartphoneFive,
+                bookSix};
+        managerAllProduct.add(bookSix);
         assertArrayEquals(expected, managerAllProduct.findAll());
     }
 
@@ -78,25 +91,30 @@ class ProductManagerTest {
     @Test
     void shouldRemoveIdFromRepositoryWithTenProduct() {
         int idBook = 3;
-        int idSmartphone = 5;
+        int idSmartphone = 7;
         Product[] expected = new Product[]{
-                book1,
-                book2,
-                smartphone1,
-                smartphone3,};
+                bookOne,
+                bookTwo,
+                bookFour,
+                bookFive,
+                smartphoneOne,
+                smartphoneThree,
+                smartphoneFour,
+                smartphoneFive};
         managerAllProduct.removeId(idBook);
         managerAllProduct.removeId(idSmartphone);
         assertArrayEquals(expected, managerAllProduct.findAll());
     }
 
+    //тесты на логику менеджера
     @Test
     void shouldMatchesTrue() {
-        assertTrue(managerEmpty.matches(smartphone1, "iPhone 13 pro"));
+        assertTrue(managerEmpty.matches(smartphoneOne, "iphONE 13"));
     }
 
     @Test
     void shouldMatchesFalse() {
-        assertFalse(managerEmpty.matches(smartphone1, "Apple"));
+        assertFalse(managerEmpty.matches(smartphoneOne, "Apple"));
     }
 
     @Mock
@@ -105,7 +123,7 @@ class ProductManagerTest {
     ProductManager managerWithMock = new ProductManager(repository);
 
     @Test
-    void shouldSearchByNameEmptyMock() {
+    void shouldSearchByTitleEmptyMock() {
         Product[] returnedEmpty = new Product[0];
         doReturn(returnedEmpty).when(repository).findAll();
         Product[] expected = new Product[0];
@@ -114,15 +132,15 @@ class ProductManagerTest {
 
     @Test
     void shouldSearchByTitleMockWithOneProductFound() {
-        Product[] returnedOneProduct = new Product[]{smartphone3};
+        Product[] returnedOneProduct = new Product[]{smartphoneFour};
         doReturn(returnedOneProduct).when(repository).findAll();
-        Product[] expected = new Product[]{smartphone3};
-        assertArrayEquals(expected, managerWithMock.searchByTitle("Note"));
+        Product[] expected = new Product[]{smartphoneFour};
+        assertArrayEquals(expected, managerWithMock.searchByTitle("fold3"));
     }
 
     @Test
     void shouldSearchByTitleMockWithOneProductUnFound() {
-        Product[] returnedOneProduct = new Product[]{smartphone3};
+        Product[] returnedOneProduct = new Product[]{smartphoneFour};
         doReturn(returnedOneProduct).when(repository).findAll();
         Product[] expected = new Product[0];
         assertArrayEquals(expected, managerWithMock.searchByTitle("iPhone"));
@@ -131,49 +149,58 @@ class ProductManagerTest {
     @Test
     void shouldSearchByTitleMockWithAllProductFoundOneResult() {
         Product[] returnedAllProduct = new Product[]{
-                book1,
-                book2,
-                book3,
-                smartphone1,
-                smartphone2,
-                smartphone3};
+                bookOne,
+                bookTwo,
+                bookThree,
+                bookFour,
+                bookFive,
+                smartphoneOne,
+                smartphoneTwo,
+                smartphoneThree,
+                smartphoneFour,
+                smartphoneFive};
         doReturn(returnedAllProduct).when(repository).findAll();
-        Product[] expected = new Product[]{book3};
-        assertArrayEquals(expected, managerWithMock.searchByTitle("унесенные"));
+        Product[] expected = new Product[]{bookFour};
+        assertArrayEquals(expected, managerWithMock.searchByTitle("исскуство"));
     }
 
-   @Test
-   void shouldSearchByTitleMockWithAllProductFoundMoreResult() {
-       Product[] returnedAllProduct = new Product[]{
-               book1,
-               book2,
-               book3,
-               smartphone1,
-               smartphone2,
-               smartphone3};
-       doReturn(returnedAllProduct).when(repository).findAll();
-       Product[] expected = new Product[]{
-               book1,
-               smartphone1,
-               smartphone2};
-       assertArrayEquals(expected, managerWithMock.searchByTitle("3"));
-   }
+    @Test
+    void shouldSearchByTitleMockWithAllProductFoundMoreResult() {
+        Product[] returnedAllProduct = new Product[]{
+                bookOne,
+                bookTwo,
+                bookThree,
+                bookFour,
+                bookFive,
+                smartphoneOne,
+                smartphoneTwo,
+                smartphoneThree,
+                smartphoneFour,
+                smartphoneFive};
+        doReturn(returnedAllProduct).when(repository).findAll();
+        Product[] expected = new Product[]{
+                bookOne,
+                smartphoneOne,
+                smartphoneTwo,
+                smartphoneFour};
+        assertArrayEquals(expected, managerWithMock.searchByTitle("3"));
+    }
 
     @Test
     void shouldSearchByTitleMockWithAllProductUnFound() {
         Product[] returnedAllProduct = new Product[]{
-                book1,
-                book2,
-                book3,
-                smartphone1,
-                smartphone2,
-                smartphone3};
+                bookOne,
+                bookTwo,
+                bookThree,
+                bookFour,
+                bookFive,
+                smartphoneOne,
+                smartphoneTwo,
+                smartphoneThree,
+                smartphoneFour,
+                smartphoneFive};
         doReturn(returnedAllProduct).when(repository).findAll();
         Product[] expected = new Product[0];
-        assertArrayEquals(expected, managerWithMock.searchByTitle("роулинг"));
+        assertArrayEquals(expected, managerWithMock.searchByTitle("толстой"));
     }
 }
-
-
-
-
