@@ -11,35 +11,34 @@ import ru.netology.exception.NotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepositoryTest {
-    ProductRepository repository = new ProductRepository();
-    Product bookOne = new Book(1, "Война и мир. 3 тома", 1000, "Л.Н.Толстой");
-    Product bookTwo = new Book(2, "История создания Звездных войн", 3000, "Джордж Лукас");
-    Product bookThree = new Book(3, "Русская история в жизнеописаниях ее главнейших деятелей", 2000, "Н.И.Костомаров");
-    Product bookFour = new Book(4, "Исскуство войны", 500, "Сунь-цзы");
-    Product bookFive = new Book(5, "История искусств. Живопись. Скульптура. Архитектура", 1500, "П.П.Гнедич");
-    Product smartphoneOne = new Smartphone(6, "iPhone 13", 200_000, "Apple");
-    Product smartphoneTwo = new Smartphone(7, "iPhone 13 Mini", 150_000, "Apple");
-    Product smartphoneThree = new Smartphone(8, "Galaxy S22 Ultra", 150_000, "Samsung");
-    Product smartphoneFour = new Smartphone(9, "Galaxy Z Fold3 5G", 130_000, "Samsung");
-    Product smartphoneFive = new Smartphone(10, "Galaxy A52", 100_000, "Samsung");
+    Product book1 = new Book(1, "Гарри Поттер и узник Азкабана", 1500, "Джоан Роулинг");
+    Product book2 = new Book(2, "Зелёная миля", 950, "Стивен Кинг");
+    Product book3 = new Book(3, "Унесенные ветром", 1350, "Маргарет Митчелл");
+    Product book4 = new Book(4, "Исскуство войны", 500, "Сунь-цзы");
+    Product book5 = new Book(5, "Прислуга", 500, "Кэтрин Стокетт");
+    Product smartphone1 = new Smartphone(6, "iPhone 13 pro", 120_000, "Apple");
+    Product smartphone2 = new Smartphone(7, "Realme 10", 50_000, "Realme");
+    Product smartphone3 = new Smartphone(8, "Xiaomi Redmi Note 11 Pro", 25_000, "Xiaomi");
+    Product smartphone4 = new Smartphone(9, "Galaxy Z Fold3 5G", 130_000, "Samsung");
+    Product smartphone5 = new Smartphone(10, "Galaxy A52", 100_000, "Samsung");
 
     @BeforeEach
     void setup() {
-        repository.addProduct(bookOne);
-        repository.addProduct(bookTwo);
-        repository.addProduct(bookThree);
-        repository.addProduct(bookFour);
-        repository.addProduct(bookFive);
-        repository.addProduct(smartphoneOne);
-        repository.addProduct(smartphoneTwo);
-        repository.addProduct(smartphoneThree);
-        repository.addProduct(smartphoneFour);
-        repository.addProduct(smartphoneFive);
+        repository.addProduct(book1);
+        repository.addProduct(book2);
+        repository.addProduct(book3);
+        repository.addProduct(book4);
+        repository.addProduct(book5);
+        repository.addProduct(smartphone1);
+        repository.addProduct(smartphone2);
+        repository.addProduct(smartphone3);
+        repository.addProduct(smartphone4);
+        repository.addProduct(smartphone5);
     }
 
     @Test
     void shouldFindByIdSuccess() {
-        Product expected = bookFour;
+        Product expected = book4;
         int id = 4;
         assertEquals(expected, repository.findById(id));
     }
@@ -50,19 +49,18 @@ class ProductRepositoryTest {
         assertNull(repository.findById(id));
     }
 
-    //тесты на NotFoundException
     @Test
     void shouldRemoveIdSuccess() {
         Product[] expected = new Product[]{
-                bookOne,
-                bookTwo,
-                bookThree,
-                bookFour,
-                bookFive,
-                smartphoneOne,
-                smartphoneThree,
-                smartphoneFour,
-                smartphoneFive};
+                book1,
+                book2,
+                book3,
+                book4,
+                book5,
+                smartphone1,
+                smartphone3,
+                smartphone4,
+                smartphone5};
         int id = 7;
         repository.removeId(id);
         assertArrayEquals(expected, repository.findAll());
@@ -76,23 +74,22 @@ class ProductRepositoryTest {
         });
     }
 
-    //тесты на AlreadyExistsException
     @Test
     void shouldAddProductSuccess() {
-        Product bookSix = new Book(11, "Мастер и Маргарита", 1500, "М.А.Булгаков");
+        Product book6 = new Book(11, "Мастер и Маргарита", 1500, "М.А.Булгаков");
         Product[] expected = new Product[]{
-                bookOne,
-                bookTwo,
-                bookThree,
-                bookFour,
-                bookFive,
-                smartphoneOne,
-                smartphoneTwo,
-                smartphoneThree,
-                smartphoneFour,
-                smartphoneFive,
-                bookSix};
-        repository.addProduct(bookSix);
+                book1,
+                book2,
+                book3,
+                book4,
+                book5,
+                smartphone1,
+                smartphone2,
+                smartphone3,
+                smartphone4,
+                smartphone5,
+                book6};
+        repository.addProduct(book6);
         assertArrayEquals(expected, repository.findAll());
     }
 
