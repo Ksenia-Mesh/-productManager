@@ -112,21 +112,35 @@ class ProductManagerTest {
         assertArrayEquals(expected, managerWithMock.searchByTitle(" "));
     }
 
+    @Test
+    void shouldSearchByTitleMockWithOneProductFound() {
+        Product[] returnedOneProduct = new Product[]{smartphone3};
+        doReturn(returnedOneProduct).when(repository).findAll();
+        Product[] expected = new Product[]{smartphone3};
+        assertArrayEquals(expected, managerWithMock.searchByTitle("Note"));
+    }
 
+    @Test
+    void shouldSearchByTitleMockWithOneProductUnFound() {
+        Product[] returnedOneProduct = new Product[]{smartphone3};
+        doReturn(returnedOneProduct).when(repository).findAll();
+        Product[] expected = new Product[0];
+        assertArrayEquals(expected, managerWithMock.searchByTitle("iPhone"));
+    }
 
-//    @Test
-//    void shouldSearchByTitleMockWithAllProductFoundOneResult() {
-//        Product[] returnedAllProduct = new Product[]{
-//                book1,
-//                book2,
-//                book3,
-//                smartphone1,
-//                smartphone2,
-//                smartphone3};
-//        doReturn(returnedAllProduct).when(repository).findAll();
-//        Product[] expected = new Product[]{book3};
-//        assertArrayEquals(expected, managerWithMock.searchByTitle("ветром"));
-//    }
+    @Test
+    void shouldSearchByTitleMockWithAllProductFoundOneResult() {
+        Product[] returnedAllProduct = new Product[]{
+                book1,
+                book2,
+                book3,
+                smartphone1,
+                smartphone2,
+                smartphone3};
+        doReturn(returnedAllProduct).when(repository).findAll();
+        Product[] expected = new Product[]{book3};
+        assertArrayEquals(expected, managerWithMock.searchByTitle("унесенные"));
+    }
 
 //    @Test
 //    void shouldSearchByTitleMockWithAllProductFoundMoreResult() {
@@ -142,7 +156,7 @@ class ProductManagerTest {
 //                book1,
 //                smartphone1,
 //                smartphone2};
-//        assertArrayEquals(expected, managerWithMock.searchByTitle("1"));
+//        assertArrayEquals(expected, managerWithMock.searchByTitle("3"));
 //    }
 
     @Test
@@ -156,6 +170,10 @@ class ProductManagerTest {
                 smartphone3};
         doReturn(returnedAllProduct).when(repository).findAll();
         Product[] expected = new Product[0];
-        assertArrayEquals(expected, managerWithMock.searchByTitle("толстой"));
+        assertArrayEquals(expected, managerWithMock.searchByTitle("роулинг"));
     }
 }
+
+
+
+
